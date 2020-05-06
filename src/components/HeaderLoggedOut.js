@@ -13,6 +13,9 @@ export default function HeaderLoggedOut({ setLoggedIn }) {
       });
       if (data.data) {
         console.log(data);
+        localStorage.setItem("cpToken", data.data.token);
+        localStorage.setItem("cpUserName", data.data.username);
+        localStorage.setItem("cpAvatar", data.data.avatar);
         setLoggedIn(true);
       } else {
         console.log("Incorrect user name ");
