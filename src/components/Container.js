@@ -1,6 +1,4 @@
 import React from "react";
-
-const dd = "container container--narrow py-md-5";
 export default function Container(props) {
   return (
     <div
