@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import Page from "./Page";
 import Axios from "axios";
 
-export default function CreatePost() {
+function CreatePost(props) {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
 
@@ -16,6 +16,8 @@ export default function CreatePost() {
         token: localStorage.getItem("cpToken"),
       });
       console.log("post created ");
+      console.log(props);
+      props.history.push(`/post/${response.data}`);
       console.log(response);
     } catch (error) {
       console.log(error);
@@ -62,3 +64,5 @@ export default function CreatePost() {
     </Page>
   );
 }
+
+export default withRouter(CreatePost);
