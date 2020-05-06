@@ -10,7 +10,6 @@ function App() {
       <Header />
       <HomeGuest />
       <Footer />
-
       {/* Container ends here */}
     </>
   );
