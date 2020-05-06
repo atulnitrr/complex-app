@@ -11,7 +11,7 @@ export default function HomeGuest() {
     e.preventDefault();
 
     try {
-      const dd = await Axios.post("http://localhost:8090/register", {
+      const dd = await Axios.post("/register", {
         username,
         email,
         password,
