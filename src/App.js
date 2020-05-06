@@ -7,6 +7,7 @@ import About from "./components/About";
 import Terms from "./components/Terms";
 import HomeGuest from "./components/HomeGuest";
 import Home from "./components/Home";
+import CreatePost from "./components/CreatePost";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(
@@ -18,6 +19,9 @@ function App() {
       <Switch>
         <Route path="/" exact>
           {loggedIn ? <Home /> : <HomeGuest />}
+        </Route>
+        <Route path="/create-post">
+          <CreatePost />
         </Route>
         <Route path="/about">
           <About />
