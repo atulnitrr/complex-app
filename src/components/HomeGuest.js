@@ -24,7 +24,7 @@ export default function HomeGuest() {
 
     setUserNamee("");
     setPassword("");
-    setPassword("");
+    setEmail("");
   };
 
   return (
