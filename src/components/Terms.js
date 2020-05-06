@@ -1,9 +1,9 @@
-import React from "react";
-import Contanier from "./Container";
+import React, { useEffect } from "react";
+import Page from "./Page";
 
 export default function Terms() {
   return (
-    <Contanier>
+    <Page title="terms and ">
       <h2>Our Terms &amp; Conditions :::</h2>
       <p className="lead text-muted">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis
@@ -32,6 +32,6 @@ export default function Terms() {
         nisi sed harum laborum, nemo odio animi officia quisquam. Veniam, natus
         reprehenderit.
       </p>
-    </Contanier>
+    </Page>
   );
 }

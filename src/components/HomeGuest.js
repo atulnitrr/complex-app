@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Container from "./Container";
+import Page from "./Page";
 
 export default function HomeGuest() {
   return (
-    <Container wide={true}>
+    <Page title="ComplexApp " wide={true}>
       <div className="row align-items-center">
         <div className="col-lg-7 py-3 py-md-5">
           <h1 className="display-3">Remember Writing?????</h1>
@@ -63,6 +64,6 @@ export default function HomeGuest() {
           </form>
         </div>
       </div>
-    </Container>
+    </Page>
   );
 }
