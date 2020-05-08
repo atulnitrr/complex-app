@@ -10,6 +10,7 @@ import Home from "./components/Home";
 import CreatePost from "./components/CreatePost";
 import ViewSinglePost from "./components/ViewSinglePost";
 import Axios from "axios";
+import FlashMessages from "./components/FlashMessages";
 Axios.defaults.baseURL = "http://localhost:8090";
 
 function App() {
@@ -18,7 +19,9 @@ function App() {
   );
   return (
     <BrowserRouter>
+      <FlashMessages />
       <Header loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
+
       <Switch>
         <Route path="/" exact>
           {loggedIn ? <Home /> : <HomeGuest />}
