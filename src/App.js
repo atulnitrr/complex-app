@@ -1,4 +1,4 @@
-import React, { useState, useReducer } from "react";
+import React, { useState, useReducer, useEffect } from "react";
 import "./App.css";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Header from "./components/Header";
@@ -23,11 +23,17 @@ function App() {
   const initialState = {
     loggedIn: Boolean(localStorage.getItem("cpToken")),
     flashMessages: "",
+    user: {
+      token: localStorage.getItem("cpToken"),
+      username: localStorage.getItem("cpUserName"),
+      avatar: localStorage.getItem("cpAvatar"),
+    },
   };
 
   function ourRducer(draft, action) {
     switch (action.type) {
       case "login":
+        draft.user = action.data;
         draft.loggedIn = true;
         break;
       case "logout":
@@ -39,6 +45,18 @@ function App() {
   }
 
   const [state, dispatch] = useImmerReducer(ourRducer, initialState);
+
+  useEffect(() => {
+    if (state.loggedIn) {
+      localStorage.setItem("cpToken", state.user.token);
+      localStorage.setItem("cpUserName", state.user.username);
+      localStorage.setItem("cpAvatar", state.user.avatar);
+    } else {
+      localStorage.removeItem("cpToken");
+      localStorage.removeItem("cpUserName");
+      localStorage.removeItem("cpAvatar");
+    }
+  }, [state.loggedIn]);
 
   // dispatch({ type: "login" });
   // dispatch({ type: "flashmessage", value: "ddd" });
