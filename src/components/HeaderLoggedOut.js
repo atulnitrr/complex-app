@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
 import Axios from "axios";
 
-import ExampleConteext from "../ExampleContext";
+import DispatchContext from "../DispatchContext";
 export default function HeaderLoggedOut(props) {
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
-  const { setLoggedIn } = useContext(ExampleConteext);
+  const dispatch = useContext(DispatchContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,7 +20,7 @@ export default function HeaderLoggedOut(props) {
         localStorage.setItem("cpToken", data.data.token);
         localStorage.setItem("cpUserName", data.data.username);
         localStorage.setItem("cpAvatar", data.data.avatar);
-        setLoggedIn(true);
+        dispatch({ type: "login" });
       } else {
         console.log("Incorrect user name ");
       }
