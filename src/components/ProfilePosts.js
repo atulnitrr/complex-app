@@ -13,8 +13,6 @@ export default function ProfilePosts() {
       try {
         setIsLoaing(true);
         const response = await Axios.get(`/profile/${username}/posts`);
-        console.log("posts data");
-        console.log(response);
         setPosts(response.data);
         setIsLoaing(false);
       } catch (error) {}
