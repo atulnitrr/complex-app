@@ -17,9 +17,6 @@ export default function HeaderLoggedOut(props) {
       });
       if (data.data) {
         console.log(data);
-        localStorage.setItem("cpToken", data.data.token);
-        localStorage.setItem("cpUserName", data.data.username);
-        localStorage.setItem("cpAvatar", data.data.avatar);
         dispatch({ type: "login", data: data.data });
       } else {
         console.log("Incorrect user name ");

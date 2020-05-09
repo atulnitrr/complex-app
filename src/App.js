@@ -11,6 +11,8 @@ import CreatePost from "./components/CreatePost";
 import ViewSinglePost from "./components/ViewSinglePost";
 import Axios from "axios";
 import FlashMessages from "./components/FlashMessages";
+import Profile from "./components/Profile";
+
 import ExampleContext from "./ExampleContext";
 import StateContext from "./StateContext";
 import DispatchContext from "./DispatchContext";
@@ -72,10 +74,13 @@ function App() {
     <StateContext.Provider value={state}>
       <DispatchContext.Provider value={dispatch}>
         <BrowserRouter>
-          <FlashMessages />
+          {/* <FlashMessages /> */}
           <Header />
 
           <Switch>
+            <Route path="/profile/:username">
+              <Profile />
+            </Route>
             <Route path="/" exact>
               {state.loggedIn ? <Home /> : <HomeGuest />}
             </Route>
