@@ -2,26 +2,33 @@ import React, { useState, useContext, useEffect } from "react";
 import Axios from "axios";
 import { useParams, Link } from "react-router-dom";
 import Page from "./Page";
+import LoadingIcon from "./LoadingIcon";
 
 export default function ViewSinglePost() {
   const [isLoading, setIsloaig] = useState(true);
   const [post, setPost] = useState();
   const id = useParams();
   useEffect(() => {
+    const ourRequest = Axios.CancelToken.source();
     async function fetchPostData() {
       console.log(id);
       console.log(id.id);
-      const response = await Axios.get(`/post/${id.id}`);
+      const response = await Axios.get(`/post/${id.id}`, {
+        cancelToken: ourRequest.token,
+      });
       console.log(response.data);
       setPost(response.data);
       setIsloaig(false);
     }
 
     fetchPostData();
+    return () => {
+      ourRequest.cancel();
+    };
   }, []);
 
   if (isLoading) {
-    return <div>Loading post ....</div>;
+    return <LoadingIcon />;
   }
 
   const date = new Date(post.createdDate);

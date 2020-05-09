@@ -20,17 +20,28 @@ export default function Profile() {
     },
   });
   useEffect(() => {
+    const ourRequest = Axios.CancelToken.source();
     async function fetcchData() {
       try {
-        const response = await Axios.post(`/profile/${pathData.username}`, {
-          token: appState.user.token,
-        });
+        const response = await Axios.post(
+          `/profile/${pathData.username}`,
+          {
+            token: appState.user.token,
+          },
+          {
+            cancelToken: ourRequest.token,
+          }
+        );
         setProfileData(response.data);
       } catch (error) {
         console.log("There was problem ");
       }
     }
     fetcchData();
+
+    return () => {
+      ourRequest.cancel();
+    };
   }, []);
 
   return (
