@@ -14,7 +14,7 @@ export default function ProfilePosts() {
       try {
         setIsLoaing(true);
         const response = await Axios.get(`/profile/${username}/posts`, {
-          cancelToken: ourRequest.cancel,
+          cancelToken: ourRequest.token,
         });
         setPosts(response.data);
         setIsLoaing(false);
