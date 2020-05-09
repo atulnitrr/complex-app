@@ -11,39 +11,47 @@ import CreatePost from "./components/CreatePost";
 import ViewSinglePost from "./components/ViewSinglePost";
 import Axios from "axios";
 import FlashMessages from "./components/FlashMessages";
+import ExampleContext from "./ExampleContext";
+
 Axios.defaults.baseURL = "http://localhost:8090";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(
     Boolean(localStorage.getItem("cpToken"))
   );
+
+  const demo = (meesage) => {
+    console.log(meesage);
+  };
   return (
-    <BrowserRouter>
-      <FlashMessages />
-      <Header loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
+    <ExampleContext.Provider value={{ demo, setLoggedIn }}>
+      <BrowserRouter>
+        <FlashMessages />
+        <Header loggedIn={loggedIn} />
 
-      <Switch>
-        <Route path="/" exact>
-          {loggedIn ? <Home /> : <HomeGuest />}
-        </Route>
-        <Route path="/post/:id">
-          <ViewSinglePost />
-        </Route>
+        <Switch>
+          <Route path="/" exact>
+            {loggedIn ? <Home /> : <HomeGuest />}
+          </Route>
+          <Route path="/post/:id">
+            <ViewSinglePost />
+          </Route>
 
-        <Route path="/create-post">
-          <CreatePost />
-        </Route>
+          <Route path="/create-post">
+            <CreatePost />
+          </Route>
 
-        <Route path="/about">
-          <About />
-        </Route>
-        <Route path="/terms">
-          <Terms />
-        </Route>
-      </Switch>
-      <Footer />
-      {/* Container ends here */}
-    </BrowserRouter>
+          <Route path="/about">
+            <About />
+          </Route>
+          <Route path="/terms">
+            <Terms />
+          </Route>
+        </Switch>
+        <Footer />
+        {/* Container ends here */}
+      </BrowserRouter>
+    </ExampleContext.Provider>
   );
 }
 

@@ -12,11 +12,7 @@ export default function Header({ loggedIn, setLoggedIn }) {
             ComplexApp
           </Link>
         </h4>
-        {loggedIn ? (
-          <HeaderLoogedIn setLoggedIn={setLoggedIn} />
-        ) : (
-          <HeaderLoggedOut setLoggedIn={setLoggedIn} />
-        )}
+        {loggedIn ? <HeaderLoogedIn /> : <HeaderLoggedOut />}
       </div>
     </header>
   );

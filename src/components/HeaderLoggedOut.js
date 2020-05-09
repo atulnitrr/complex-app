@@ -1,8 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Axios from "axios";
-export default function HeaderLoggedOut({ setLoggedIn }) {
+
+import ExampleConteext from "../ExampleContext";
+export default function HeaderLoggedOut(props) {
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
+
+  const { setLoggedIn } = useContext(ExampleConteext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

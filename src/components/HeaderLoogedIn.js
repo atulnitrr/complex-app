@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import ExampleContext from "../ExampleContext";
 
-export default function HeaderLoogedIn({ setLoggedIn }) {
+export default function HeaderLoogedIn() {
+  const { setLoggedIn } = useContext(ExampleContext);
   const handleLogOut = (e) => {
     localStorage.removeItem("cpToken");
     localStorage.removeItem("cpUserName");
