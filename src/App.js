@@ -15,6 +15,8 @@ import ExampleContext from "./ExampleContext";
 import StateContext from "./StateContext";
 import DispatchContext from "./DispatchContext";
 
+import { useImmerReducer } from "use-immer";
+
 Axios.defaults.baseURL = "http://localhost:8090";
 
 function App() {
@@ -23,18 +25,20 @@ function App() {
     flashMessages: "",
   };
 
-  function ourRducer(state, action) {
+  function ourRducer(draft, action) {
     switch (action.type) {
       case "login":
-        return { ...state, loggedIn: true };
+        draft.loggedIn = true;
+        break;
       case "logout":
-        return { loggedIn: false };
+        draft.loggedIn = false;
+        break;
       default:
         return { ...state };
     }
   }
 
-  const [state, dispatch] = useReducer(ourRducer, initialState);
+  const [state, dispatch] = useImmerReducer(ourRducer, initialState);
 
   // dispatch({ type: "login" });
   // dispatch({ type: "flashmessage", value: "ddd" });
