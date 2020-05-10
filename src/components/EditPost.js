@@ -44,6 +44,7 @@ export default function EditPost() {
         break;
       case "savePostStarted":
         draft.isSaving = true;
+        break;
       case "savePostEnd":
         draft.isSaving = false;
         break;
