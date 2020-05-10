@@ -13,6 +13,7 @@ import Axios from "axios";
 import FlashMessages from "./components/FlashMessages";
 import Profile from "./components/Profile";
 import EditPost from "./components/EditPost";
+import NotFound from "./components/NotFound";
 
 import ExampleContext from "./ExampleContext";
 import StateContext from "./StateContext";
@@ -100,6 +101,9 @@ function App() {
             </Route>
             <Route path="/terms">
               <Terms />
+            </Route>
+            <Route>
+              <NotFound />
             </Route>
           </Switch>
           <Footer />

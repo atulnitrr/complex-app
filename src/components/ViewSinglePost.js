@@ -3,6 +3,7 @@ import Axios from "axios";
 import { useParams, Link } from "react-router-dom";
 import Page from "./Page";
 import LoadingIcon from "./LoadingIcon";
+import NotFound from "./NotFound";
 import ReactMarkdown from "react-markdown";
 import ReactToolTip from "react-tooltip";
 
@@ -28,6 +29,10 @@ export default function ViewSinglePost() {
       ourRequest.cancel();
     };
   }, []);
+
+  if (!isLoading && !post) {
+    return <NotFound></NotFound>;
+  }
 
   if (isLoading) {
     return <LoadingIcon />;
