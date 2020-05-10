@@ -34,19 +34,35 @@ export default function EditPost() {
         draft.createdDate = action.value.createdDate;
         break;
       case "titleChange":
+        draft.title.hasError = false;
         draft.title.value = action.value;
         break;
       case "bodyChange":
+        draft.body.hasError = false;
         draft.body.value = action.value;
         break;
       case "submitRequest":
-        draft.sendCount++;
+        if (!draft.title.hasError && !draft.body.hasError) {
+          draft.sendCount++;
+        }
         break;
       case "savePostStarted":
         draft.isSaving = true;
         break;
       case "savePostEnd":
         draft.isSaving = false;
+        break;
+      case "titleRule":
+        if (!action.value.trim()) {
+          draft.title.hasError = true;
+          draft.title.message = "You must give title";
+        }
+        break;
+      case "bodyRule":
+        if (!action.value.trim()) {
+          draft.body.hasError = true;
+          draft.body.message = "You must give body";
+        }
         break;
       default:
         break;
@@ -104,8 +120,11 @@ export default function EditPost() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    dispatch({ type: "titleRule", value: state.title.value });
+    dispatch({ type: "bodyRule", value: state.body.value });
     dispatch({ type: "submitRequest" });
   };
+
   return (
     <Page title="Edit post">
       <form onSubmit={handleSubmit}>
@@ -113,6 +132,11 @@ export default function EditPost() {
           <label htmlFor="post-title" className="text-muted mb-1">
             <small>Title</small>
           </label>
+          {state.title.hasError && (
+            <div className="alert alert-danger small liveValidateMessage">
+              {state.title.message}
+            </div>
+          )}
           <input
             autoFocus
             name="title"
@@ -124,6 +148,9 @@ export default function EditPost() {
             value={state.title.value}
             onChange={(e) =>
               dispatch({ type: "titleChange", value: e.target.value })
+            }
+            onBlur={(e) =>
+              dispatch({ type: "titleRule", value: e.target.value })
             }
           />
         </div>
@@ -141,7 +168,15 @@ export default function EditPost() {
             onChange={(e) =>
               dispatch({ type: "bodyChange", value: e.target.value })
             }
+            onBlur={(e) =>
+              dispatch({ type: "bodyRule", value: e.target.value })
+            }
           ></textarea>
+          {state.body.hasError && (
+            <div className="alert alert-danger small liveValidateMessage">
+              {state.body.message}
+            </div>
+          )}
         </div>
 
         <button className="btn btn-primary" disabled={state.isSaving}>
