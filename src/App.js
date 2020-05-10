@@ -12,6 +12,7 @@ import ViewSinglePost from "./components/ViewSinglePost";
 import Axios from "axios";
 import FlashMessages from "./components/FlashMessages";
 import Profile from "./components/Profile";
+import EditPost from "./components/EditPost";
 
 import ExampleContext from "./ExampleContext";
 import StateContext from "./StateContext";
@@ -84,10 +85,12 @@ function App() {
             <Route path="/" exact>
               {state.loggedIn ? <Home /> : <HomeGuest />}
             </Route>
-            <Route path="/post/:id">
+            <Route path="/post/:id" exact>
               <ViewSinglePost />
             </Route>
-
+            <Route path="/post/:id/edit" exact>
+              <EditPost />
+            </Route>
             <Route path="/create-post">
               <CreatePost />
             </Route>
