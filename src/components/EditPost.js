@@ -4,8 +4,10 @@ import Axios from "axios";
 import { useParams, Link } from "react-router-dom";
 import Page from "./Page";
 import LoadingIcon from "./LoadingIcon";
+import StateContext from "../StateContext";
 
 export default function EditPost() {
+  const appState = useContext(StateContext);
   const originalState = {
     title: {
       value: "",
@@ -31,6 +33,20 @@ export default function EditPost() {
         draft.isFetching = false;
         draft.createdDate = action.value.createdDate;
         break;
+      case "titleChange":
+        draft.title.value = action.value;
+        break;
+      case "bodyChange":
+        draft.body.value = action.value;
+        break;
+      case "submitRequest":
+        draft.sendCount++;
+        break;
+      case "savePostStarted":
+        draft.isSaving = true;
+      case "savePostEnd":
+        draft.isSaving = false;
+        break;
       default:
         break;
     }
@@ -53,13 +69,45 @@ export default function EditPost() {
     };
   }, []);
 
+  useEffect(() => {
+    if (state.sendCount) {
+      dispatch({ type: "savePostStarted" });
+      const ourRequest = Axios.CancelToken.source();
+      const updtePost = async () => {
+        const response = await Axios.post(
+          `/post/${state.id}/edit`,
+          {
+            title: state.title.value,
+            body: state.body.value,
+            token: appState.user.token,
+          },
+          {
+            cancelToken: ourRequest.token,
+          }
+        );
+        dispatch({ type: "savePostEnd" });
+        console.log("Console data updapge");
+        console.log(response);
+      };
+      updtePost();
+
+      return () => {
+        ourRequest.cancel();
+      };
+    }
+  }, [state.sendCount]);
+
   if (state.isFetching) {
     return <LoadingIcon />;
   }
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch({ type: "submitRequest" });
+  };
   return (
-    <Page title="Edit  post">
-      <form>
+    <Page title="Edit post">
+      <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="post-title" className="text-muted mb-1">
             <small>Title</small>
@@ -73,7 +121,9 @@ export default function EditPost() {
             placeholder=""
             autoComplete="off"
             value={state.title.value}
-            onChange={(e) => console.log("kj")}
+            onChange={(e) =>
+              dispatch({ type: "titleChange", value: e.target.value })
+            }
           />
         </div>
 
@@ -87,11 +137,15 @@ export default function EditPost() {
             className="body-content tall-textarea form-control"
             type="text"
             value={state.body.value}
-            onChange={(e) => console.log("")}
+            onChange={(e) =>
+              dispatch({ type: "bodyChange", value: e.target.value })
+            }
           ></textarea>
         </div>
 
-        <button className="btn btn-primary">Update Post</button>
+        <button className="btn btn-primary" disabled={state.isSaving}>
+          {state.isSaving ? "Saving ..." : "Update Post"}
+        </button>
       </form>
     </Page>
   );
