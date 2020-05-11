@@ -14,6 +14,7 @@ import FlashMessages from "./components/FlashMessages";
 import Profile from "./components/Profile";
 import EditPost from "./components/EditPost";
 import NotFound from "./components/NotFound";
+import Search from "./components/Search";
 
 import ExampleContext from "./ExampleContext";
 import StateContext from "./StateContext";
@@ -32,6 +33,7 @@ function App() {
       username: localStorage.getItem("cpUserName"),
       avatar: localStorage.getItem("cpAvatar"),
     },
+    isSeachOpen: false,
   };
 
   function ourRducer(draft, action) {
@@ -42,6 +44,12 @@ function App() {
         break;
       case "logout":
         draft.loggedIn = false;
+        break;
+      case "openSearch":
+        draft.isSeachOpen = true;
+        break;
+      case "closeSearch":
+        draft.isSeachOpen = false;
         break;
       default:
         return { ...state };
@@ -106,6 +114,7 @@ function App() {
               <NotFound />
             </Route>
           </Switch>
+          {state.isSeachOpen ? <Search /> : ""}
           <Footer />
           {/* Container ends here */}
         </BrowserRouter>
