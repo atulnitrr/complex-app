@@ -9,6 +9,7 @@ import HomeGuest from "./components/HomeGuest";
 import Home from "./components/Home";
 import CreatePost from "./components/CreatePost";
 import ViewSinglePost from "./components/ViewSinglePost";
+import { CSSTransition } from "react-transition-group";
 import Axios from "axios";
 import FlashMessages from "./components/FlashMessages";
 import Profile from "./components/Profile";
@@ -114,7 +115,15 @@ function App() {
               <NotFound />
             </Route>
           </Switch>
-          {state.isSeachOpen ? <Search /> : ""}
+          <CSSTransition
+            timeout={730}
+            in={state.isSeachOpen}
+            classNames="search-overlay"
+            unmountOnExit
+          >
+            <Search />
+          </CSSTransition>
+
           <Footer />
           {/* Container ends here */}
         </BrowserRouter>
