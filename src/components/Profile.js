@@ -8,7 +8,7 @@ import { useParams } from "react-router-dom";
 import StateContext from "../StateContext";
 
 export default function Profile() {
-  const pathData = useParams();
+  const { username } = useParams();
   const appState = useContext(StateContext);
   const [state, setState] = useImmer({
     followActionLoading: false,
@@ -31,7 +31,7 @@ export default function Profile() {
     async function fetcchData() {
       try {
         const response = await Axios.post(
-          `/profile/${pathData.username}`,
+          `/profile/${username}`,
           {
             token: appState.user.token,
           },
@@ -51,7 +51,7 @@ export default function Profile() {
     return () => {
       ourRequest.cancel();
     };
-  }, []);
+  }, [username]);
 
   useEffect(() => {
     if (state.startFollwoingRequestCount) {

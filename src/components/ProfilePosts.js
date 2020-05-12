@@ -26,7 +26,7 @@ export default function ProfilePosts() {
     return () => {
       ourRequest.cancel();
     };
-  }, []);
+  }, [username]);
 
   if (isLoading) {
     return <div>Loading ....</div>;
