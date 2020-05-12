@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { useImmer } from "use-immer";
 import { Link } from "react-router-dom";
 import Axios from "axios";
+import Post from "../components/Post";
 import DispatchContext from "../DispatchContext";
 
 function Search() {
