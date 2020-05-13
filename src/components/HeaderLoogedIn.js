@@ -29,12 +29,21 @@ export default function HeaderLoogedIn() {
       <ReactToolTip place="bottom" id="search" />
       <span
         onClick={(e) => appDisPatch({ type: "toggleChat" })}
-        className="mr-2 header-chat-icon text-white"
+        className={
+          "mr-2 header-chat-icon " +
+          (appState.unredChatCount > 0 ? "text-danger" : "text-white")
+        }
         data-for="chat"
         data-tip="Chat"
       >
         <i className="fas fa-comment"></i>
-        <span className="chat-count-badge text-white"> </span>
+        {appState.unredChatCount > 0 ? (
+          <span className="chat-count-badge text-white">
+            {appState.unredChatCount < 10 ? appState.unredChatCount : "9+"}
+          </span>
+        ) : (
+          ""
+        )}
       </span>
       <ReactToolTip place="bottom" id="chat" />
       <Link

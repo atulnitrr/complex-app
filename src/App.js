@@ -37,6 +37,7 @@ function App() {
     },
     isSeachOpen: false,
     isChatOpen: false,
+    unredChatCount: 0,
   };
 
   function ourRducer(draft, action) {
@@ -59,6 +60,12 @@ function App() {
         break;
       case "closeChat":
         draft.isChatOpen = false;
+        break;
+      case "incrementUnredChat":
+        draft.unredChatCount++;
+        break;
+      case "clearUnredcount":
+        draft.unredChatCount = 0;
         break;
       default:
         return { ...state };
