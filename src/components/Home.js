@@ -26,16 +26,17 @@ export default function Home() {
             token: appState.user.token,
           },
           {
-            cancelToken: ourRequest.cancel,
+            cancelToken: ourRequest.token,
           }
         );
         console.log("Jhome feed data");
         console.log(response.data);
         setState((draft) => {
           draft.isLoading = false;
-          draft.feed = response.data;
+          draft.feed = [...response.data];
         });
       } catch (error) {
+        console.log(error);
         console.log("someething happened");
       }
     }
@@ -52,19 +53,18 @@ export default function Home() {
 
   return (
     <Page>
-      {state.feed.length >
-        0(
-          <>
-            <h2 className="text-center mb-4">
-              The latest from those who u follow
-            </h2>
-            <div className="list-group">
-              {state.feed.results.map((post) => {
-                return <Post post={post} key={post._id} />;
-              })}
-            </div>
-          </>
-        )}
+      {state.feed.length > 0 && (
+        <>
+          <h2 className="text-center mb-4">
+            The latest from those who u follow
+          </h2>
+          <div className="list-group">
+            {state.feed.map((post) => {
+              return <Post post={post} key={post._id} />;
+            })}
+          </div>
+        </>
+      )}
       {state.feed.length == 0 && (
         <>
           <h2 className="text-center">

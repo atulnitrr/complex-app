@@ -3,8 +3,8 @@ import StateContext from "../StateContext";
 import DispatchContext from "../DispatchContext";
 import { useImmer } from "use-immer";
 import { Link } from "react-router-dom";
-import io from "socket.io-client";
-const socket = io("http://localhost:8080");
+// import io from "socket.io-client";
+// const socket = io("http://localhost:8080");
 
 const Chat = () => {
   const appState = useContext(StateContext);
@@ -24,18 +24,18 @@ const Chat = () => {
   }, [appState.isChatOpen]);
 
   useEffect(() => {
-    socket.on("chatFromServer", (message) => {
-      setState((draft) => {
-        draft.chatMessages.push(message);
-      });
-    });
+    // socket.on("chatFromServer", (message) => {
+    //   setState((draft) => {
+    //     draft.chatMessages.push(message);
+    //   });
+    // });
   }, []);
 
   useEffect(() => {
     chatLog.current.scrollTop = chatLog.current.scrollHeight;
-    if (state.chatMessages.length > 0 && !appState.isChatOpen) {
-      appDispacth({ type: "incrementUnredChat" });
-    }
+    // if (state.chatMessages.length > 0 && !appState.isChatOpen) {
+    //   appDispacth({ type: "incrementUnredChat" });
+    // }
   }, [state.chatMessages]);
 
   const handleFieldChnage = (e) => {
@@ -49,10 +49,10 @@ const Chat = () => {
     e.preventDefault();
     // send message to chat server
 
-    socket.emit("chatFromBrowser", {
-      message: state.fieldValue,
-      token: appState.user.token,
-    });
+    // socket.emit("chatFromBrowser", {
+    //   message: state.fieldValue,
+    //   token: appState.user.token,
+    // });
 
     setState((draft) => {
       // add message to state collection

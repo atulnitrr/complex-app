@@ -1,30 +1,77 @@
 import React, { useEffect, useState } from "react";
 import Axios from "axios";
 import Page from "./Page";
+import { useImmer, useImmerReducer } from "use-immer";
+import { CSSTransition } from "react-transition-group";
 
 export default function HomeGuest() {
-  const [username, setUserNamee] = useState("");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
+  const initialStae = {
+    username: {
+      value: "",
+      hasErrors: false,
+      message: "",
+      isUnique: false,
+      checkCount: 0,
+    },
+    email: {
+      value: "",
+      hasErrors: false,
+      message: "",
+      isUnique: false,
+      checkCount: 0,
+    },
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+    password: {
+      value: "",
+      hasErrors: false,
+      message: "",
+    },
+    submitCount: 0,
+  };
 
-    try {
-      const dd = await Axios.post("/register", {
-        username,
-        email,
-        password,
-      });
-
-      console.log(dd);
-    } catch (error) {
-      console.log(error);
+  const ourReducer = (draft, action) => {
+    switch (action.type) {
+      case "usernameImmedialtely":
+        draft.username.hasErrors = false;
+        draft.username.value = action.value;
+        if (draft.username.value.length > 30) {
+          draft.username.hasErrors = true;
+          draft.username.message = "SHold be less tahn 30";
+        }
+        if (
+          draft.username.value &&
+          !/^([a-zA-Z0-9]+)$/.test(draft.username.value)
+        ) {
+          draft.username.hasErrors = true;
+          draft.username.message = " Shold  be  number ";
+        }
+        break;
+      case "userNameAfterDealy":
+        break;
+      case "emailImmedialtely":
+        draft.email.hasErrors = false;
+        draft.email.value = action.value;
+        break;
+      case "emailAfterDealy":
+        break;
+      case "passwordImmedialtely":
+        draft.password.hasErrors = false;
+        draft.password.value = action.value;
+        break;
+      case "passwordAfterDealy":
+        break;
+      case "userNameUniqueResult":
+        break;
+      case "emailUniqueResult":
+        break;
+      case "submitForm":
+        break;
     }
+  };
 
-    setUserNamee("");
-    setPassword("");
-    setEmail("");
+  const [state, dispatch] = useImmerReducer(ourReducer, initialStae);
+  const handleSubmit = (e) => {
+    e.preventDefault();
   };
 
   return (
@@ -52,9 +99,24 @@ export default function HomeGuest() {
                 type="text"
                 placeholder="Pick a username"
                 autoComplete="off"
-                value={username}
-                onChange={(event) => setUserNamee(event.target.value)}
+                value={state.username.value}
+                onChange={(event) =>
+                  dispatch({
+                    type: "usernameImmedialtely",
+                    value: event.target.value,
+                  })
+                }
               />
+              <CSSTransition
+                in={state.username.hasErrors}
+                timeout={330}
+                classNames="liveValidateMessage"
+                unmountOnExit
+              >
+                <div className="alert alert-danger liveValidateMessage small">
+                  {state.username.message}
+                </div>
+              </CSSTransition>
             </div>
             <div className="form-group">
               <label htmlFor="email-register" className="text-muted mb-1">
@@ -67,8 +129,13 @@ export default function HomeGuest() {
                 type="text"
                 placeholder="you@example.com"
                 autoComplete="off"
-                onChange={(e) => setEmail(e.target.value)}
-                value={email}
+                onChange={(event) =>
+                  dispatch({
+                    type: "emailImmedialtely",
+                    value: event.target.value,
+                  })
+                }
+                value={state.email.value}
               />
             </div>
             <div className="form-group">
@@ -81,8 +148,13 @@ export default function HomeGuest() {
                 className="form-control"
                 type="password"
                 placeholder="Create a password"
-                onChange={(e) => setPassword(e.target.value)}
-                value={password}
+                onChange={(event) =>
+                  dispatch({
+                    type: "passwordImmedialtely",
+                    value: event.target.value,
+                  })
+                }
+                value={state.password.value}
               />
             </div>
             <button
