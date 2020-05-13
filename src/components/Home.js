@@ -17,10 +17,9 @@ export default function Home() {
 
   useEffect(() => {
     const ourRequest = Axios.CancelToken.source();
-
     async function fetchData() {
       try {
-        console.log("started");
+        console.log("started ---");
         const response = await Axios.post(
           `/getHomeFeed`,
           {

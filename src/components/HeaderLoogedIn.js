@@ -28,6 +28,7 @@ export default function HeaderLoogedIn() {
       </a>
       <ReactToolTip place="bottom" id="search" />
       <span
+        onClick={(e) => appDisPatch({ type: "toggleChat" })}
         className="mr-2 header-chat-icon text-white"
         data-for="chat"
         data-tip="Chat"

@@ -16,6 +16,7 @@ import Profile from "./components/Profile";
 import EditPost from "./components/EditPost";
 import NotFound from "./components/NotFound";
 import Search from "./components/Search";
+import Chat from "./components/Chat";
 
 import ExampleContext from "./ExampleContext";
 import StateContext from "./StateContext";
@@ -35,6 +36,7 @@ function App() {
       avatar: localStorage.getItem("cpAvatar"),
     },
     isSeachOpen: false,
+    isChatOpen: false,
   };
 
   function ourRducer(draft, action) {
@@ -51,6 +53,12 @@ function App() {
         break;
       case "closeSearch":
         draft.isSeachOpen = false;
+        break;
+      case "toggleChat":
+        draft.isChatOpen = !draft.isChatOpen;
+        break;
+      case "closeChat":
+        draft.isChatOpen = false;
         break;
       default:
         return { ...state };
@@ -123,7 +131,7 @@ function App() {
           >
             <Search />
           </CSSTransition>
-
+          {state.isChatOpen && <Chat />}
           <Footer />
           {/* Container ends here */}
         </BrowserRouter>
