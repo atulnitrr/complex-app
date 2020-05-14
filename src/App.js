@@ -15,8 +15,6 @@ import FlashMessages from "./components/FlashMessages";
 import Profile from "./components/Profile";
 import EditPost from "./components/EditPost";
 import NotFound from "./components/NotFound";
-import Search from "./components/Search";
-import Chat from "./components/Chat";
 
 import ExampleContext from "./ExampleContext";
 import StateContext from "./StateContext";
@@ -24,10 +22,12 @@ import DispatchContext from "./DispatchContext";
 
 import { useImmerReducer } from "use-immer";
 import LoadingIcon from "./components/LoadingIcon";
-
 const CreatePost = React.lazy(() => import("./components/CreatePost"));
+const Search = React.lazy(() => import("./components/Search"));
+const Chat = React.lazy(() => import("./components//Chat"));
 
-Axios.defaults.baseURL = "http://localhost:8090";
+// Axios.defaults.baseURL = "http://localhost:8090";
+Axios.defaults.baseURL = process.env.BACKENDURL || "";
 
 function App() {
   const initialState = {
@@ -162,9 +162,13 @@ function App() {
             classNames="search-overlay"
             unmountOnExit
           >
-            <Search />
+            <div className="search-overlay">
+              <Suspense fallback="">
+                <Search />
+              </Suspense>
+            </div>
           </CSSTransition>
-          {state.isChatOpen && <Chat />}
+          <Suspense fallback="">{state.isChatOpen && <Chat />}</Suspense>
           <Footer />
           {/* Container ends here */}
         </BrowserRouter>

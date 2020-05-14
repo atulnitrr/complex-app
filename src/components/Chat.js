@@ -29,6 +29,9 @@ const Chat = () => {
     //     draft.chatMessages.push(message);
     //   });
     // });
+    // return () => {
+    //   socket.disconnect();
+    // }
   }, []);
 
   useEffect(() => {
