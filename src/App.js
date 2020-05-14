@@ -92,9 +92,31 @@ function App() {
   //   Boolean(localStorage.getItem("cpToken"))
   // );
 
-  const demo = (meesage) => {
-    console.log(meesage);
-  };
+  useEffect(() => {
+    if (state.loggedIn) {
+      const ourRequest = Axios.CancelToken.source();
+      async function getData() {
+        try {
+          const response = await Axios.post(
+            "/checkToken",
+            { token: state.user.token },
+            {
+              CancelToken: ourRequest.token,
+            }
+          );
+
+          if (!response.data) {
+            dispatch({ type: "logout" });
+          }
+        } catch (error) {}
+      }
+      getData();
+
+      return () => {
+        ourRequest.cancel();
+      };
+    }
+  }, []);
 
   return (
     <StateContext.Provider value={state}>
